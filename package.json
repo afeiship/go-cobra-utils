@@ -5,7 +5,7 @@
   "description": "Go cobra utils.",
   "license": "MIT",
   "scripts": {
-    "test": "go test __tests__/*.go -v",
+    "test": "go test -v ./...",
     "release": "release-it"
   }
 }
