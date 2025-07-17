@@ -1,0 +1,11 @@
+{
+  "name": "go-cobra-utils",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Go cobra utils.",
+  "license": "MIT",
+  "scripts": {
+    "test": "go test __tests__/*.go -v",
+    "release": "release-it"
+  }
+}
