@@ -10,6 +10,11 @@ var (
 	failEmoji    = "❌"
 )
 
+func init() {
+	// Default log flags to include date and time
+	log.SetFlags(log.LstdFlags)
+}
+
 // Info prints an informational log message.
 func Info(format string, v ...interface{}) {
 	log.Printf("INFO: "+format, v...)
@@ -45,3 +50,8 @@ func SetFailEmoji(emoji string) {
 	failEmoji = emoji
 }
 
+// SetTimestampFormat sets the flags for the standard logger to control timestamp format.
+// Use constants from the log package, e.g., log.LstdFlags, log.Ldate, log.Ltime.
+func SetTimestampFormat(flags int) {
+	log.SetFlags(flags)
+}

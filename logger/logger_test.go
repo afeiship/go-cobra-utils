@@ -6,6 +6,7 @@ import (
 	"os"
 	"strings"
 	"testing"
+	"time"
 )
 
 func TestInfo(t *testing.T) {
@@ -128,5 +129,54 @@ func TestSetFailEmoji(t *testing.T) {
 	expected := "👎 custom fail: message\n"
 	if buf.String() != expected {
 		t.Errorf("Expected \"%s\", got \"%s\"", expected, buf.String())
+	}
+}
+
+func TestSetTimestampFormat(t *testing.T) {
+	// Save original log flags and output
+	originalFlags := log.Flags()
+	originalOutput := log.Writer()
+	defer func() {
+		log.SetFlags(originalFlags)
+		log.SetOutput(originalOutput)
+	}()
+
+	var buf bytes.Buffer
+	log.SetOutput(&buf)
+
+	// Test with only date
+	SetTimestampFormat(log.Ldate)
+	Info("test date format")
+	output := buf.String()
+	// Extract the timestamp part (e.g., "2006/01/02 ")
+	timestampPart := strings.Split(output, " INFO:")[0]
+	expectedDate := time.Now().Format("2006/01/02")
+	if !strings.HasPrefix(timestampPart, expectedDate) || strings.Contains(timestampPart, ":") {
+		t.Errorf("Expected date only, got: %s", timestampPart)
+	}
+	buf.Reset()
+
+	// Test with only time
+	SetTimestampFormat(log.Ltime)
+	Info("test time format")
+	output = buf.String()
+	timestampPart = strings.Split(output, " INFO:")[0]
+	expectedTime := time.Now().Format("15:04:05")
+	if !strings.HasPrefix(timestampPart, expectedTime) || strings.Contains(timestampPart, "/") {
+		t.Errorf("Expected time only, got: %s", timestampPart)
+	}
+	buf.Reset()
+
+	// Test with no flags
+	SetTimestampFormat(0)
+	Info("test no format")
+	output = buf.String()
+	// In this case, there should be no timestamp part before " INFO:"
+	if strings.HasPrefix(output, time.Now().Format("2006/01/02")) || strings.HasPrefix(output, time.Now().Format("15:04:05")) {
+		t.Errorf("Expected no timestamp, got: %s", output)
+	}
+	// Also check that the output starts directly with the log level prefix
+	if !strings.HasPrefix(output, "INFO:") {
+		t.Errorf("Expected output to start with \"INFO:\", got: %s", output)
 	}
 }
