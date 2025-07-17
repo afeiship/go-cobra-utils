@@ -3,7 +3,10 @@ package fs
 import (
 	"io"
 	"os"
+	"path/filepath"
 )
+
+// $ go test ./fs/...
 
 // Exists checks if a file or directory exists.
 func Exists(path string) bool {
@@ -63,8 +66,17 @@ func EnsureDir(path string) error {
 
 // EnsureFile ensures a file exists.
 func EnsureFile(path string) error {
+	if IsDir(path) {
+		return os.ErrExist
+	}
+
 	if Exists(path) {
 		return nil
+	}
+
+	err := EnsureDir(filepath.Dir(path))
+	if err != nil {
+		return err
 	}
 
 	f, err := os.Create(path)
