@@ -1,9 +1,12 @@
 package cobrautils
 
 import (
-	"fmt"
+	"os/exec"
 )
 
-func SayHi() {
-	fmt.Println("Hi from pkgj")
+// Exec executes a shell command.
+func Exec(cmd string) (string, error) {
+	c := exec.Command("sh", "-c", cmd)
+	output, err := c.CombinedOutput()
+	return string(output), err
 }
