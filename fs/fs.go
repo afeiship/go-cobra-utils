@@ -86,3 +86,13 @@ func EnsureFile(path string) error {
 
 	return f.Close()
 }
+
+// Remove removes a file or an empty directory.
+func Remove(path string) error {
+	return os.Remove(path)
+}
+
+// RemoveAll removes a path and any children it contains.
+func RemoveAll(path string) error {
+	return os.RemoveAll(path)
+}

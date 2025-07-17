@@ -141,3 +141,52 @@ func TestEnsureFile(t *testing.T) {
 		t.Fatal("Expected an error when the path is a directory")
 	}
 }
+
+func TestRemove(t *testing.T) {
+	tmpDir := t.TempDir()
+	dummyFile := filepath.Join(tmpDir, "dummy.txt")
+
+	// Create a dummy file
+	f, err := os.Create(dummyFile)
+	if err != nil {
+		t.Fatal(err)
+	}
+	f.Close()
+
+	// Remove the file
+	err = Remove(dummyFile)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if Exists(dummyFile) {
+		t.Fatal("Expected file to be removed")
+	}
+}
+
+func TestRemoveAll(t *testing.T) {
+	tmpDir := t.TempDir()
+	dummyDir := filepath.Join(tmpDir, "dummy_dir")
+	dummyFile := filepath.Join(dummyDir, "dummy.txt")
+
+	// Create a dummy directory with a file inside
+	err := os.Mkdir(dummyDir, 0755)
+	if err != nil {
+		t.Fatal(err)
+	}
+	f, err := os.Create(dummyFile)
+	if err != nil {
+		t.Fatal(err)
+	}
+	f.Close()
+
+	// Remove the directory and its contents
+	err = RemoveAll(dummyDir)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if Exists(dummyDir) {
+		t.Fatal("Expected directory to be removed")
+	}
+}
