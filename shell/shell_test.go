@@ -1,17 +1,23 @@
-package cobrautils_test
+package shell
 
 import (
-	"github.com/afeiship/cobrautils"
 	"testing"
 )
 
 func TestExec(t *testing.T) {
-	output, err := cobrautils.Exec("echo 'hello world'")
+	output, err := Exec("echo 'hello world'")
 	if err != nil {
 		t.Fatal(err)
 	}
 
 	if output != "hello world\n" {
 		t.Fatalf("Expected 'hello world', got '%s'", output)
+	}
+}
+
+func TestRun(t *testing.T) {
+	err := Run("echo 'hello world'")
+	if err != nil {
+		t.Fatal(err)
 	}
 }
