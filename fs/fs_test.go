@@ -9,7 +9,6 @@ import (
 func TestExists(t *testing.T) {
 	tmpDir := t.TempDir()
 	dummyFile := filepath.Join(tmpDir, "dummy.txt")
-
 	// Create a dummy file
 	f, err := os.Create(dummyFile)
 	if err != nil {
@@ -19,6 +18,14 @@ func TestExists(t *testing.T) {
 
 	if !Exists(dummyFile) {
 		t.Fatal("Expected file to exist")
+	}
+}
+
+func TestNotExists(t *testing.T) {
+	tmpDir := t.TempDir()
+	dummyFile := filepath.Join(tmpDir, "dummy.txt")
+	if Exists(dummyFile) {
+		t.Fatal("Expected file to not exist")
 	}
 }
 
