@@ -1,11 +1,18 @@
 {
   "name": "go-cobra-utils",
   "private": true,
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Go cobra utils.",
   "license": "MIT",
   "scripts": {
     "test": "go test -v ./...",
     "release": "release-it"
-  }
+  },
+  "keywords": [
+    "cobra",
+    "fs",
+    "go",
+    "shell",
+    "utils"
+  ]
 }
